@@ -1,0 +1,1 @@
+export type TName = "email" | "username" | "password"
