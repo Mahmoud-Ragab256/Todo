@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react'
-import Input from './ui/Input'
-import type { IInput } from '../interfaces'
+import Input from './Input'
+import type { IInput } from '../../interfaces'
 
 interface IProps {
   inputs: IInput[];
