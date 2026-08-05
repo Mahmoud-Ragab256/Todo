@@ -6,14 +6,23 @@ export const loginForm: IInput[] = [
     name: "email",
     id: "email",
     placeholder: "email@example.com",
-    type: "text"
+    type: "text",
+    validation: {
+      required: true,
+      pattern: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
+    }
+
   },
   {
     label: "Password",
     name: "password",
     id: "password",
     placeholder: "password must include uppercase, lowercase, number and special characters",
-    type: "password"
+    type: "password",
+    validation: {
+      required: true,
+      minLength: 6
+    }
   }
 ]
 
@@ -24,20 +33,32 @@ export const signupForm: IInput[] = [
     name: "username",
     id: "username",
     placeholder: "username",
-    type: "text"
+    type: "text",
+    validation: {
+      required: true,
+      minLength: 5
+    }
   },
   {
     label: "Email",
     name: "email",
     id: "email",
     placeholder: "email@example.com",
-    type: "email"
+    type: "email",
+    validation: {
+      required: true,
+      pattern: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
+    }
   },
   {
     label: "Password",
     name: "password",
     id: "password",
     placeholder: "password must include uppercase, lowercase, number and special characters",
-    type: "password"
+    type: "password",
+    validation: {
+      required: true,
+      minLength: 6
+    }
   }
 ]

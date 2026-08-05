@@ -6,4 +6,9 @@ export interface IInput {
   id: string;
   placeholder: string;
   type: string;
+  validation: {
+    required?: boolean;
+    pattern?: RegExp;
+    minLength?: number
+  }
 }
