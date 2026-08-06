@@ -11,7 +11,7 @@ export const signupSchema = yup
   .required()
 export const loginSchema = yup
   .object({
-    email: yup.string().required("email is required").matches(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/, "not valid email address"),
+    identifier: yup.string().required("email is required").matches(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/, "not valid email address"),
     password: yup.string().required("password is required").min(5, "password should be at-least 6 characters"),
   })
   .required()

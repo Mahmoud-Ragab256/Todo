@@ -1,1 +1,2 @@
-export type TName = "email" | "username" | "password"
+export type TNameRegister = "email" | "username" | "password"
+export type TNameLogin = "identifier" | "password"

@@ -14,7 +14,7 @@ function Navbar() {
             <a className="cursor-pointer" href="/login">
               Login
             </a>
-            <a className="cursor-pointer" href="/signup">
+            <a className="cursor-pointer" href="/register">
               Sign Up
             </a>
           </div>

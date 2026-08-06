@@ -5,7 +5,7 @@ import {
 } from "react-router-dom";
 import RootLayout from "../layout";
 import Login from "../pages/Login";
-import Signup from "../pages/Signup";
+import Register from "../pages/Register";
 import TodoList from "../components/ui/TodoList";
 
 
@@ -16,7 +16,7 @@ const router = createBrowserRouter(
       <Route path="/" element={<RootLayout />}>
         <Route index element={<TodoList />} ></Route>
         <Route path="login" element={<Login />} ></Route>
-        <Route path="signup" element={<Signup />} ></Route>
+        <Route path="register" element={<Register />} ></Route>
       </Route>
     </>
   )

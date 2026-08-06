@@ -2,7 +2,7 @@
 
 @layer components {
   .btn {
-    @apply bg-slate-900 dark:bg-indigo-600 dark:text-white dark:hover:bg-indigo-700 rounded-md transition duration-300 ease-in-out;
+    @apply bg-indigo-700 text-white hover:bg-indigo-600 rounded-md transition duration-300 ease-in-out disabled:bg-indigo-400 disabled:cursor-not-allowed;
     @apply p-3;
   }
 
@@ -14,7 +14,7 @@
     @apply bg-gray-300 hover:bg-gray-500 text-gray-700 dark:bg-gray-500 dark:text-white dark:hover:bg-gray-400;
   }
 
-  .btn-outline{
+  .btn-outline {
     @apply border border-indigo-400 hover:text-white bg-transparent text-black hover:border-transparent hover:bg-indigo-700
   }
 

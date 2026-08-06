@@ -1,9 +1,9 @@
-import type { IInput } from "../interfaces";
+import type { IInputLogin, IInputRegister } from "../interfaces";
 
-export const loginForm: IInput[] = [
+export const loginForm: IInputLogin[] = [
   {
     label: "Email",
-    name: "email",
+    name: "identifier",
     id: "email",
     placeholder: "email@example.com",
     type: "text",
@@ -26,7 +26,7 @@ export const loginForm: IInput[] = [
   }
 ]
 
-export const signupForm: IInput[] = [
+export const signupForm: IInputRegister[] = [
 
   {
     label: "username",
