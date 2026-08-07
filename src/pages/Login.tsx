@@ -9,7 +9,7 @@ import { useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
 import type { AxiosError } from "axios";
 import api from "../config/axios.config";
-import { useLocation, useNavigate } from "react-router";
+import { useNavigate } from "react-router";
 
 interface IFormInput {
   identifier: string;

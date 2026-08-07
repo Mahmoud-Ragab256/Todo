@@ -11,7 +11,7 @@
   }
 
   .btn-cancel {
-    @apply bg-gray-300 hover:bg-gray-500 text-gray-700 dark:bg-gray-500 dark:text-white dark:hover:bg-gray-400;
+    @apply bg-gray-500 hover:bg-gray-400 text-white dark:bg-gray-500 dark:text-white dark:hover:bg-gray-400;
   }
 
   .btn-outline {

@@ -1,6 +1,6 @@
-import type { ReactNode } from "react"
+import type { ButtonHTMLAttributes, ReactNode } from "react"
 
-interface IProps {
+interface IProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   className?: string
   children: ReactNode
   isLoading?: boolean
