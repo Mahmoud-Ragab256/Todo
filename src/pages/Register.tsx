@@ -29,7 +29,7 @@ function Register() {
     try {
       const { status } = await api.post("/auth/local/register", data)
       if (status === 200) {
-        toast('Registered Successfully', {
+        toast.success('Registered Successfully', {
           duration: 4000,
           position: 'bottom-center',
 
@@ -44,7 +44,7 @@ function Register() {
 
       const errorObj = error as AxiosError<{ error: { message?: string } }>
 
-      toast(`${errorObj.response?.data?.error?.message}`, {
+      toast.error(`${errorObj.response?.data?.error?.message}`, {
         duration: 4000,
         position: 'bottom-center',
 

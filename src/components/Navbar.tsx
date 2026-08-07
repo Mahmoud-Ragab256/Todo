@@ -1,23 +1,36 @@
+import { NavLink, useLocation } from "react-router"
 
 function Navbar() {
+
+  const { pathname } = useLocation()
+  const storageKey = "userData"
+  const userDataString = localStorage.getItem(storageKey)
+  const userData = userDataString ? JSON.parse(userDataString) : null
+
+  const logout = () => {
+    localStorage.removeItem(storageKey)
+
+    setTimeout(() =>
+      location.replace(pathname))
+      , 1000
+  }
+
   return (
     <>
       <nav className="navbar w-100 bg-indigo-700 text-white p-4 mx-auto my-8 md:w-150 lg:w-200 rounded-md ">
         <div className="nav-menu flex justify-between items-center">
           <div >
-            <a className="cursor-pointer" href="/home">
-              Home
-            </a>
+            <NavLink to='/'>Home</NavLink>
+            <NavLink to='/profile'>profile</NavLink>
           </div>
 
-          <div className="nav-actions flex gap-4">
-            <a className="cursor-pointer" href="/login">
-              Login
-            </a>
-            <a className="cursor-pointer" href="/register">
-              Sign Up
-            </a>
-          </div>
+          {userData ? <div className="hover:text-gray-200 transition duration-200"><NavLink to='/' onClick={() => logout()}>Logout</NavLink></div>
+            : <div className="nav-actions flex gap-4">
+              <NavLink to='/login'>login</NavLink>
+              <NavLink to='/register'>register</NavLink>
+            </div>}
+
+
         </div>
       </nav>
     </>

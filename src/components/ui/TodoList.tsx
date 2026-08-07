@@ -1,26 +1,31 @@
 import ListElement from "./ListElement"
 
 interface IProps {
+  data: {
+    todos: {
+      id: number;
+      title: string;
+    }[]
+  }
 
 }
 
-function TodoList({ }: IProps) {
+function TodoList({ data }: IProps) {
+
+
   return (
     <>
-      <div className="w-100 md:w-150 lg:w-200 mx-auto">
-        <ListElement backgroundColor="#DDD" index={1} >
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Rerum consequatur
-        </ListElement>
-        <ListElement backgroundColor="#AAA" index={2} >
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Rerum consequatur
-        </ListElement>
-        <ListElement backgroundColor="#DDD" index={3} >
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Rerum consequatur
-        </ListElement>
-        <ListElement backgroundColor="#AAA" index={4} >
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Rerum consequatur
-        </ListElement>
-      </div>
+      {
+        data?.todos.length > 0 ? data.todos.map((todo, idx) => {
+          let bgc: string = '';
+          (idx % 2) ? bgc = '#EEE' : bgc = '#CCC'
+          return (
+            <ListElement key={todo.id} backgroundColor={bgc} index={idx} >
+              {todo.title}
+            </ListElement>
+          )
+        }) : <h3>No todos yet...</h3>
+      }
     </>
   )
 }

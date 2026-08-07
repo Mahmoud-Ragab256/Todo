@@ -9,6 +9,7 @@ import { useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
 import type { AxiosError } from "axios";
 import api from "../config/axios.config";
+import { useLocation, useNavigate } from "react-router";
 
 interface IFormInput {
   identifier: string;
@@ -16,7 +17,7 @@ interface IFormInput {
 }
 
 function Login() {
-
+  const navigate = useNavigate()
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const { register, handleSubmit, formState: { errors } } = useForm<IFormInput>({ resolver: yupResolver(loginSchema) })
   const onSubmit: SubmitHandler<IFormInput> = async (data) => {
@@ -25,10 +26,9 @@ function Login() {
 
 
     try {
-      const { status } = await api.post("/auth/local", data)
-      console.log(status)
+      const { status, data: resData } = await api.post("/auth/local", data)
       if (status === 200) {
-        toast('Login Successfully', {
+        toast.success('Login Successfully', {
           duration: 4000,
           position: 'bottom-center',
 
@@ -39,13 +39,15 @@ function Login() {
         }
         )
       }
+
+      localStorage.setItem("userData", JSON.stringify(resData))
     } catch (error) {
 
       const errorObj = error as AxiosError<{ error: { message?: string } }>
 
       console.log(errorObj.response?.data?.error?.message)
 
-      toast(`${errorObj.response?.data?.error?.message}`, {
+      toast.error(`${errorObj.response?.data?.error?.message}`, {
         duration: 4000,
         position: 'bottom-center',
 
@@ -57,6 +59,7 @@ function Login() {
       )
     } finally {
       setIsLoading(false)
+      navigate("/")
     }
   }
 
@@ -74,7 +77,7 @@ function Login() {
     <>
       <form className="flex flex-col gap-4 w-100 lg:w-150 mx-auto my-20 p-4 rounded-md" onSubmit={handleSubmit(onSubmit)}>
         {renderInputs}
-        <Button isLoading={isLoading}>Submit</Button>
+        <Button isLoading={isLoading}>Login</Button>
         <div className="text-sm text-gray-700 mx-auto">new account ? <a href="/register" className="text-indigo-700">register</a></div>
       </form>
       <Toaster />
