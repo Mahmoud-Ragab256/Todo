@@ -2,15 +2,81 @@ import TodoList from "../components/ui/TodoList";
 import ErrorHandler from "../components/errors/ErrorHandler";
 import useAuthenticatedQuery from "../hooks/useAuthenticatedQuery";
 import Button from "../components/ui/Button";
-// import { useForm } from "react-hook-form";
-// import { yupResolver } from "@hookform/resolvers/yup";
-// import { todoSchema } from "../validation";
+import { useState } from "react";
+import { useForm, type SubmitHandler } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { addTodoSchema } from "../validation";
+import InputErrorMsg from "../components/ui/InputErrorMsg";
+import TextArea from "../components/ui/TextArea";
+import Input from "../components/ui/Input";
+import Modal from "../components/ui/Modal";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import api from "../config/axios.config";
 
 function Home() {
+
+  const modalInputs = {
+    label: "title",
+    name: "title",
+    id: "title",
+    placeholder: "title",
+    type: "text",
+  }
+
+  const queryClient = useQueryClient()
+
 
   const storageKey = "userData"
   const userDataString = localStorage.getItem(storageKey)
   const userData = userDataString ? JSON.parse(userDataString) : null;
+
+
+
+  const [isAddOpen, setIsAddOpen] = useState<boolean>(false)
+
+  const { register, handleSubmit, reset, formState: { errors } } = useForm<{ title: string, description: string }>({
+    resolver: yupResolver(addTodoSchema),
+    defaultValues: {
+      title: '',
+      description: ''
+    }
+  })
+
+
+
+
+
+  function openAddModal() {
+    setIsAddOpen(true)
+  }
+
+  function closeAddModal() {
+    setIsAddOpen(false)
+  }
+
+
+  const { mutate: addTodo } = useMutation({
+    mutationFn: async (newData: { title: string, description: string }) => {
+      const { title, description } = newData;
+      const res = await api.post(`/todos`, { data: { title, description } }, {
+        headers: { Authorization: `Bearer ${userData.jwt}` }
+      });
+      return res.data;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['todos'] });
+
+      closeAddModal();
+    },
+    onError: (error) => {
+      console.error("Update failed:", error);
+    }
+  });
+
+  const onSubmitHandler: SubmitHandler<{ title: string, description: string }> = (data) => {
+    addTodo(data);
+    reset()
+  }
 
 
 
@@ -23,14 +89,17 @@ function Home() {
       }
     })
 
+
+
+
   if (isPending) return (
     <div role="status" className="max-w-sm animate-pulse mx-auto">
       <div className="h-2.5 bg-gray-100 rounded-full w-48 mb-4"></div>
-      <div className="h-2 bg-gray-100  rounded-full max-w-[360px] mb-2.5"></div>
+      <div className="h-2 bg-gray-100  rounded-full max-w-\[360px\] mb-2.5"></div>
       <div className="h-2 bg-gray-100  rounded-full mb-2.5"></div>
-      <div className="h-2 bg-gray-100  rounded-full max-w-[330px] mb-2.5"></div>
-      <div className="h-2 bg-gray-100  rounded-full max-w-[300px] mb-2.5"></div>
-      <div className="h-2 bg-gray-100  rounded-full max-w-[360px]"></div>
+      <div className="h-2 bg-gray-100  rounded-full max-w-\[330px\] mb-2.5"></div>
+      <div className="h-2 bg-gray-100  rounded-full max-w-\[300px\] mb-2.5"></div>
+      <div className="h-2 bg-gray-100  rounded-full max-w-\[360px\]"></div>
       <span className="sr-only">Loading...</span>
     </div>
   )
@@ -41,9 +110,27 @@ function Home() {
   return (
     <>
       <div className="w-100 md:w-150 lg:w-200 mx-auto">
-        <Button className="btn block mx-auto my-4">Post new todo</Button>
+        <Button className="btn block mx-auto my-4" onClick={openAddModal}>Post new todo</Button>
         <TodoList todos={data.todos} jwt={userData.jwt} />
       </div>
+      <Modal isOpen={isAddOpen} title="Edit Todo">
+        <form className="flex flex-col gap-4" onSubmit={handleSubmit(onSubmitHandler)}>
+          <div>
+            <Input input={modalInputs} {...register("title")}></Input>
+            {errors['title'] && <InputErrorMsg msg={errors['title']?.message} />}
+          </div>
+          <div className="flex flex-col gap-0.5">
+            <label htmlFor="description">description</label>
+            <TextArea id="description" {...register("description")} />
+            {errors['description'] && <InputErrorMsg msg={errors['description']?.message} />}
+          </div>
+
+          <div className="flex gap-2">
+            <Button className='btn w-full text-white bg-indigo-700 hover:bg-indigo-600' type="submit">Add</Button>
+            <Button className='btn btn-cancel w-full' onClick={closeAddModal} type="reset">Cancel</Button>
+          </div>
+        </form>
+      </Modal>
     </>
   )
 }

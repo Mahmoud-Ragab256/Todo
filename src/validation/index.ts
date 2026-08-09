@@ -14,8 +14,12 @@ export const loginSchema = yup.object({
 })
   .required()
 
-export const todoSchema = yup.object({
+export const editTodoSchema = yup.object({
   documentId: yup.string().required(),
+  title: yup.string().required("Title is required").max(50, "Title must be >= 50 character"),
+  description: yup.string().required("Description is required").min(20, "Description must be <= 50 character")
+})
+export const addTodoSchema = yup.object({
   title: yup.string().required("Title is required").max(50, "Title must be >= 50 character"),
   description: yup.string().required("Description is required").min(20, "Description must be <= 50 character")
 })

@@ -8,7 +8,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { type ITodo } from '../../interfaces/index'
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { todoSchema } from "../../validation";
+import { editTodoSchema } from "../../validation";
 import InputErrorMsg from "./InputErrorMsg";
 
 
@@ -42,13 +42,14 @@ function TodoList({ todos, jwt }: IProps) {
   })
 
   const { register, handleSubmit, reset, formState: { errors } } = useForm<ITodo>({
-    resolver: yupResolver(todoSchema),
+    resolver: yupResolver(editTodoSchema),
     defaultValues: {
       documentId: todoToEdit.documentId,
       title: todoToEdit.title,
       description: todoToEdit.description
     }
   })
+
 
 
 
