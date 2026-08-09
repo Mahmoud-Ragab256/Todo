@@ -19,3 +19,9 @@ export interface IInputRegister extends IInput {
 export interface IInputLogin extends IInput {
   name: TNameLogin;
 }
+
+export interface ITodo {
+  documentId: string;
+  title: string;
+  description: string;
+}

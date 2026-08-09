@@ -1,16 +1,16 @@
-import { useState, type ChangeEvent, type SubmitEvent } from "react";
+import { useState } from "react";
 import Button from "./Button";
 import Modal from "./Modal";
 import Input from "./Input";
 import TextArea from "./TextArea";
 import api from "../../config/axios.config";
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { type ITodo } from '../../interfaces/index'
+import { useForm, type SubmitHandler } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { todoSchema } from "../../validation";
+import InputErrorMsg from "./InputErrorMsg";
 
-interface ITodo {
-  documentId: string,
-  title: string,
-  description: string
-}
 
 interface IProps {
   todos: ITodo[];
@@ -20,7 +20,7 @@ interface IProps {
 
 function TodoList({ todos, jwt }: IProps) {
 
-  const ModalInputs = {
+  const modalInputs = {
     label: "title",
     name: "title",
     id: "title",
@@ -30,6 +30,9 @@ function TodoList({ todos, jwt }: IProps) {
 
   const queryClient = useQueryClient();
 
+
+
+
   const [isEditOpen, setIsEditOpen] = useState<boolean>(false)
   const [isRemoveOpen, setIsRemoveOpen] = useState<boolean>(false)
   const [todoToEdit, setTodoToEdit] = useState<ITodo>({
@@ -37,6 +40,20 @@ function TodoList({ todos, jwt }: IProps) {
     description: '',
     documentId: ''
   })
+
+  const { register, handleSubmit, reset, formState: { errors } } = useForm<ITodo>({
+    resolver: yupResolver(todoSchema),
+    defaultValues: {
+      documentId: todoToEdit.documentId,
+      title: todoToEdit.title,
+      description: todoToEdit.description
+    }
+  })
+
+
+
+
+
 
   function openEditModal() {
     setIsEditOpen(true)
@@ -91,23 +108,18 @@ function TodoList({ todos, jwt }: IProps) {
     }
   });
 
-  const onSubmitHandler = (e: SubmitEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    updateTodo(todoToEdit);
+  const onSubmitHandler: SubmitHandler<ITodo> = (data) => {
+    updateTodo(data);
   }
 
-  const onChangeHandler = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target
-    setTodoToEdit({
-      ...todoToEdit,
-      [name]: value
-    })
-  }
 
   const editHandler = (todo: ITodo) => {
     openEditModal()
-    setTodoToEdit({ documentId: todo.documentId, title: todo.title || "Mahmoud", description: todo.description })
+    reset(todo)
   }
+
+
+
 
 
   return (
@@ -133,13 +145,15 @@ function TodoList({ todos, jwt }: IProps) {
         }) : <h3>No todos yet...</h3>
       }
       <Modal isOpen={isEditOpen} title="Edit Todo">
-        <form className="flex flex-col gap-4" onSubmit={onSubmitHandler}>
-
-          <Input input={ModalInputs} value={todoToEdit.title} onChange={onChangeHandler}></Input>
-
+        <form className="flex flex-col gap-4" onSubmit={handleSubmit(onSubmitHandler)}>
+          <div>
+            <Input input={modalInputs} {...register("title")}></Input>
+            {errors['title'] && <InputErrorMsg msg={errors['title']?.message} />}
+          </div>
           <div className="flex flex-col gap-0.5">
             <label htmlFor="description">description</label>
-            <TextArea name="description" id="description" value={todoToEdit.description} onChange={onChangeHandler} />
+            <TextArea id="description" {...register("description")} />
+            {errors['description'] && <InputErrorMsg msg={errors['description']?.message} />}
           </div>
 
           <div className="flex gap-2">
