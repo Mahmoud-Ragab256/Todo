@@ -81,10 +81,6 @@ function AllTodos() {
   }
 
 
-
-  // console.log(data)
-
-
   if (isLoading || isGenerating) return (
     <div role="status" className="max-w-sm animate-pulse mx-auto">
       <div className="h-2.5 bg-gray-100 rounded-full w-48 mb-4"></div>

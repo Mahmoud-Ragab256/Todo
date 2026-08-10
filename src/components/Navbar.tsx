@@ -17,17 +17,19 @@ function Navbar() {
 
   return (
     <>
-      <nav className="navbar w-100 bg-indigo-700 text-white p-4 mx-auto my-8 md:w-150 lg:w-200 rounded-md ">
+      <nav className="navbar w-100 text-gray-500 p-4 mx-auto my-8 md:w-150 lg:w-200 rounded-md ">
         <div className="nav-menu flex justify-between items-center">
           <div >
-            <NavLink to='/'>Home</NavLink>
-            <NavLink to='/todos'>All Todos</NavLink>
+            <NavLink className="hover:text-indigo-700" to='/'>Home</NavLink>
           </div>
 
-          {userData ? <div className="hover:text-gray-200 transition duration-200"><NavLink to='/' onClick={() => logout()}>Logout</NavLink></div>
-            : <div className="nav-actions flex gap-4">
-              <NavLink to='/login'>login</NavLink>
-              <NavLink to='/register'>register</NavLink>
+          {userData ? <div className="transition duration-200 space-x-3">
+            <NavLink className="hover:text-indigo-700" to='/todos'>All Todos</NavLink>
+            <NavLink className="text-white bg-indigo-700 p-3 rounded-md" to='/' onClick={() => logout()}>Logout</NavLink>
+          </div>
+            : <div className="nav-actions flex gap-1">
+              <NavLink className="text-white bg-indigo-700 p-3 px-5 rounded-md" to='/login'>login</NavLink>
+              <NavLink className="btn-outline p-3 rounded-md transition duration-300" to='/register'>register</NavLink>
             </div>}
 
 
