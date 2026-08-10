@@ -10,6 +10,7 @@ import ProtectedRoute from "../components/auth/ProtectedRoute";
 import UserGuard from "../components/auth/UserGuard";
 import Home from "../pages/Home";
 import ErrorHandler from "../components/errors/ErrorHandler";
+import AllTodos from "../pages/AllTodos";
 
 
 
@@ -23,9 +24,9 @@ const router = createBrowserRouter(
             <Home />
           </ProtectedRoute>} >
         </Route>
-        <Route path="profile" element={
+        <Route path="todos" element={
           <ProtectedRoute redirectPath="/login" >
-            <h1>This is Profile</h1>
+            <AllTodos />
           </ProtectedRoute>} >
         </Route>
 

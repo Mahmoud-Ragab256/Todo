@@ -128,11 +128,11 @@ function TodoList({ todos, jwt }: IProps) {
       {
         todos.length > 0 ? todos.map((todo, idx) => {
           let bgc: string = '';
-          (idx % 2) ? bgc = '#EEE' : bgc = '#CCC'
+          (idx % 2) ? bgc = '#FEFEFE' : bgc = '#F2F2F2'
           return (
             <div className="w-full flex items-center justify-between gap-4 p-4 text-[12px] md:text-sm" style={{ backgroundColor: bgc }} key={todo.documentId}>
               <span className="block">
-                {idx}.
+                {idx + 1}.
               </span>
               <span className=" block line-clamp-3">
                 {todo.title}

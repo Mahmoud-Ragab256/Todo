@@ -1,15 +1,16 @@
 import type { ButtonHTMLAttributes, ReactNode } from "react"
 
 interface IProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-  className?: string
-  children: ReactNode
-  isLoading?: boolean
+  className?: string;
+  children: ReactNode;
+  isLoading?: boolean;
+  disabled?: boolean;
 }
 
-function Button({ className, children, isLoading, ...rest }: IProps) {
+function Button({ className, children, isLoading, disabled, ...rest }: IProps) {
   return (
     <>
-      <button className={`btn ${className}`} {...rest} disabled={isLoading}>
+      <button className={`btn ${className}`} {...rest} disabled={isLoading || disabled}>
         {isLoading ?
           <div className="flex items-center justify-center">
             <svg className="mr-3 -ml-1 size-5 animate-spin text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">

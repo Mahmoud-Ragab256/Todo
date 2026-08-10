@@ -21,7 +21,7 @@ function Navbar() {
         <div className="nav-menu flex justify-between items-center">
           <div >
             <NavLink to='/'>Home</NavLink>
-            <NavLink to='/profile'>profile</NavLink>
+            <NavLink to='/todos'>All Todos</NavLink>
           </div>
 
           {userData ? <div className="hover:text-gray-200 transition duration-200"><NavLink to='/' onClick={() => logout()}>Logout</NavLink></div>
